@@ -1,33 +1,52 @@
 import { useEffect } from 'react';
 import './App.css';
 
-const tg = window.Telegram.WebApp;
+const tg = window.Telegram?.WebApp;
 
 const products = [
-  {id: 1, title: 'Minecraft', price: 1500, image: 'https://via.placeholder.com/150/248bcf/ffffff?text=Minecraft'},
-  {id: 2, title: 'GTA V', price: 2500, image: 'https://via.placeholder.com/150/248bcf/ffffff?text=GTA+V'},
-  {id: 3, title: 'Elden Ring', price: 3999, image: 'https://via.placeholder.com/150/248bcf/ffffff?text=Elden+Ring'},
-  {id: 4, title: 'Cyberpunk 2077', price: 2000, image: 'https://via.placeholder.com/150/248bcf/ffffff?text=Cyberpunk'},
+  {id: 1, title: 'Minecraft', price: 1500},
+  {id: 2, title: 'GTA V', price: 2500},
+  {id: 3, title: 'Elden Ring', price: 3999},
+  {id: 4, title: 'Cyberpunk 2077', price: 2000},
 ];
 
 function App() {
   useEffect(() => {
-    tg.ready();
+    tg?.ready();
   }, []);
+
+  const onAdd = (item) => {
+    // Показываем главную кнопку ТГ при нажатии на товар
+    tg.MainButton.text = `Купить ${item.title} за ${item.price}₽`;
+    tg.MainButton.show();
+  };
 
   return (
     <div className="App">
-      <header style={{padding: '15px', textAlign: 'center', borderBottom: '1px solid #ccc'}}>
-        <strong>Привет, {tg.initDataUnsafe?.user?.first_name || 'Геймер'}!</strong>
+      <header style={{textAlign: 'center', padding: '10px'}}>
+        <strong>Привет, {tg?.initDataUnsafe?.user?.first_name || 'Геймер'}!</strong>
       </header>
 
-      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', padding: '15px'}}>
+      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', padding: '10px'}}>
         {products.map(item => (
-          <div key={item.id} className="product-card">
-            <img src={item.image} alt={item.title} style={{width: '100%', borderRadius: '8px'}} />
-            <h3 style={{fontSize: '14px', margin: '10px 0'}}>{item.title}</h3>
-            <p className="product-price">{item.price} ₽</p>
-            <button style={{width: '100%'}}>Купить</button>
+          <div key={item.id} style={{border: '1px solid #eee', padding: '15px', borderRadius: '15px', textAlign: 'center'}}>
+            <h3 style={{fontSize: '14px'}}>{item.title}</h3>
+            <p style={{color: '#248bcf', fontWeight: 'bold'}}>{item.price} ₽</p>
+            <button 
+  onClick={() => onAdd(item)}
+  style={{
+    width: '100%', 
+    background: 'var(--tg-theme-button-color, #248bcf)', 
+    color: 'var(--tg-theme-button-text-color, #ffffff)', 
+    border: 'none', 
+    borderRadius: '8px', 
+    padding: '10px',
+    fontWeight: 'bold',
+    cursor: 'pointer'
+  }}
+>
+  Выбрать
+</button>gi
           </div>
         ))}
       </div>
