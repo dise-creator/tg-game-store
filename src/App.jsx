@@ -13,45 +13,37 @@ const products = [
 function App() {
   useEffect(() => {
     tg?.ready();
-    tg?.expand(); // Это заставит окно открыться на весь экран
+    // Устанавливаем цвет хедера под тему ТГ
+    tg.setHeaderColor('secondary_bg_color');
   }, []);
 
   const onAdd = (item) => {
-    tg.MainButton.text = `Оплатить ${item.title}: ${item.price}₽`;
+    // 1. Текст на главной кнопке
+    tg.MainButton.setText(`Оплатить ${item.title}: ${item.price}₽`);
+    // 2. Показываем её
     tg.MainButton.show();
+    // 3. Добавляем вибрацию при клике (Haptic)
+    tg.HapticFeedback.impactOccurred('medium');
+    
+    // 4. Что будет при нажатии на Главную кнопку
+    tg.onEvent('mainButtonClicked', () => {
+        tg.sendData(JSON.stringify(item)); // Отправляем данные боту
+        tg.close(); // Закрываем магазин
+    });
   };
 
   return (
-    <div className="App" style={{ color: 'var(--tg-theme-text-color)', background: 'var(--tg-theme-bg-color)', minHeight: '100vh' }}>
-      <header style={{ padding: '20px', textAlign: 'center' }}>
-        <h2>Привет, {tg?.initDataUnsafe?.user?.first_name || 'Геймер'}!</h2>
+    <div className="App">
+      <header>
+        <h1>Привет, {tg?.initDataUnsafe?.user?.first_name || 'Геймер'}!</h1>
       </header>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', padding: '15px' }}>
+      <div className="list">
         {products.map(item => (
-          <div key={item.id} style={{
-            background: 'var(--tg-theme-secondary-bg-color)',
-            padding: '15px',
-            borderRadius: '15px',
-            textAlign: 'center',
-            border: '1px solid #444'
-          }}>
-            <h3 style={{ fontSize: '14px', marginBottom: '10px' }}>{item.title}</h3>
-            <b style={{ color: 'var(--tg-theme-button-color)' }}>{item.price} ₽</b>
-            <button 
-              onClick={() => onAdd(item)}
-              style={{
-                marginTop: '10px',
-                width: '100%',
-                padding: '12px',
-                background: 'var(--tg-theme-button-color)',
-                color: 'var(--tg-theme-button-text-color)',
-                border: 'none',
-                borderRadius: '10px',
-                fontWeight: 'bold',
-                fontSize: '14px'
-              }}
-            >
+          <div key={item.id} className="item">
+            <div className="title">{item.title}</div>
+            <div className="price">{item.price} ₽</div>
+            <button className="add-btn" onClick={() => onAdd(item)}>
               Купить
             </button>
           </div>
