@@ -3,46 +3,11 @@ import { useEffect } from 'react';
 const tg = window.Telegram?.WebApp;
 
 const products = [
-  {id: 1, title: 'Minecraft', price: 1500},
-  {id: 2, title: 'GTA V', price: 2500},
-  {id: 3, title: 'Elden Ring', price: 3999},
-  {id: 4, title: 'Cyberpunk 2077', price: 2000},
+  {id: 1, title: 'Minecraft', price: 1500, img: 'https://i.ibb.co/pW3mXGv/minecraft.jpg'},
+  {id: 2, title: 'GTA V', price: 2500, img: 'https://i.ibb.co/mS6vPZ8/gta5.jpg'},
+  {id: 3, title: 'Elden Ring', price: 3999, img: 'https://i.ibb.co/Xz9tG9S/elden-ring.jpg'},
+  {id: 4, title: 'Cyberpunk 2077', price: 2000, img: 'https://i.ibb.co/hR4yP6V/cyberpunk.jpg'},
 ];
-
-// Стили прямо в коде
-const styles = {
-  container: {
-    padding: '20px',
-    textAlign: 'center',
-    background: 'var(--tg-theme-bg-color, #ffffff)',
-    color: 'var(--tg-theme-text-color, #000000)',
-    minHeight: '100vh',
-    fontFamily: 'sans-serif'
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '15px',
-    marginTop: '20px'
-  },
-  card: {
-    background: 'var(--tg-theme-secondary-bg-color, #f0f0f0)',
-    padding: '15px',
-    borderRadius: '15px',
-    border: '1px solid rgba(0,0,0,0.1)'
-  },
-  button: {
-    width: '100%',
-    padding: '10px',
-    marginTop: '10px',
-    border: 'none',
-    borderRadius: '10px',
-    background: 'var(--tg-theme-button-color, #248bcf)',
-    color: 'var(--tg-theme-button-text-color, #ffffff)',
-    fontWeight: 'bold',
-    cursor: 'pointer'
-  }
-};
 
 function App() {
   useEffect(() => {
@@ -54,17 +19,29 @@ function App() {
     tg.MainButton.text = `Купить ${item.title} за ${item.price}₽`;
     tg.MainButton.show();
     tg.HapticFeedback.impactOccurred('medium');
+    tg.onEvent('mainButtonClicked', () => {
+        tg.sendData(JSON.stringify(item));
+    });
+  };
+
+  const s = {
+    container: { padding: '20px', textAlign: 'center', background: 'var(--tg-theme-bg-color)', color: 'var(--tg-theme-text-color)', minHeight: '100vh' },
+    grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '20px' },
+    card: { background: 'var(--tg-theme-secondary-bg-color)', padding: '10px', borderRadius: '15px', border: '1px solid rgba(0,0,0,0.1)', overflow: 'hidden' },
+    img: { width: '100%', height: '120px', objectFit: 'cover', borderRadius: '10px', marginBottom: '10px' },
+    btn: { width: '100%', padding: '10px', marginTop: '10px', border: 'none', borderRadius: '10px', background: 'var(--tg-theme-button-color)', color: 'var(--tg-theme-button-text-color)', fontWeight: 'bold' }
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={{margin: '0 0 10px 0'}}>Привет, {tg?.initDataUnsafe?.user?.first_name || 'Геймер'}!</h2>
-      <div style={styles.grid}>
+    <div style={s.container}>
+      <h2>Привет, {tg?.initDataUnsafe?.user?.first_name || 'Геймер'}!</h2>
+      <div style={s.grid}>
         {products.map(item => (
-          <div key={item.id} style={styles.card}>
-            <div style={{fontWeight: 'bold', fontSize: '14px'}}>{item.title}</div>
-            <div style={{margin: '5px 0', color: 'var(--tg-theme-button-color)'}}>{item.price} ₽</div>
-            <button style={styles.button} onClick={() => onAdd(item)}>Купить</button>
+          <div key={item.id} style={s.card}>
+            <img src={item.img} alt={item.title} style={s.img} />
+            <b style={{fontSize: '14px'}}>{item.title}</b>
+            <div style={{margin: '5px 0', color: 'var(--tg-theme-link-color)', fontWeight: 'bold'}}>{item.price} ₽</div>
+            <button style={s.btn} onClick={() => onAdd(item)}>Купить</button>
           </div>
         ))}
       </div>
