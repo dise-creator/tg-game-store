@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 const tg = window.Telegram?.WebApp;
 
 const products = [
-  {id: 1, title: 'Minecraft', price: 1500, img: 'https://img.vsemayki.ru/get/0/1/3277/3277054/img_v2_1000.jpg'},
-  {id: 2, title: 'GTA V', price: 2500, img: 'https://media-rockstargames-com.akamaized.net/rockstargames-new/img/global/games/fob/640/V.jpg'},
+  {id: 1, title: 'Minecraft', price: 1500, img: 'https://cdn.pixabay.com/photo/2017/02/08/21/51/minecraft-2050117_1280.png'},
+  {id: 2, title: 'GTA V', price: 2500, img: 'https://www.rockstargames.com/info/V/img/global/home/v-icons/v-icon-1.png'},
   {id: 3, title: 'Elden Ring', price: 3999, img: 'https://image.api.playstation.com/vulcan/ap/rnd/202110/2000/aajm8sY4wS6pOf9f9S066N7E.png'},
   {id: 4, title: 'Cyberpunk 2077', price: 2000, img: 'https://s3.gaming-cdn.com/images/products/3216/orig/cyberpunk-2077-pc-game-gog-com-cover.jpg'}
 ];
