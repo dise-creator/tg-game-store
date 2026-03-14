@@ -37,20 +37,26 @@ function App() {
       fontFamily: 'sans-serif'
     },
     sectionTitle: { textAlign: 'left', padding: '0 20px', margin: '20px 0 10px', fontSize: '20px', color: '#00d2ff' },
-    card: { 
-      background: 'rgba(255, 255, 255, 0.05)', 
-      backdropFilter: 'blur(10px)', 
+card: { 
+      background: 'rgba(255, 255, 255, 0.07)', // чуть светлее
+      backdropFilter: 'blur(15px)', 
       padding: '15px', 
-      borderRadius: '20px', 
-      border: '1px solid rgba(255, 255, 255, 0.1)',
-      width: '200px', // Фиксированная ширина для слайда
-      margin: '10px'
+      borderRadius: '30px', // Делаем очень круглыми (супер-современно)
+      border: '1px solid rgba(0, 210, 255, 0.3)', // Голубой бортик
+      width: '200px',
+      margin: '10px',
+      boxShadow: '0 10px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 210, 255, 0.1)', // Внешняя тень и внутреннее свечение
     },
-    img: { width: '100%', height: '120px', objectFit: 'cover', borderRadius: '15px', marginBottom: '10px' },
     btn: { 
-      width: '100%', padding: '10px', border: 'none', borderRadius: '12px', 
-      background: 'linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%)', 
-      color: 'white', fontWeight: 'bold' 
+      width: '100%', 
+      padding: '12px', 
+      border: 'none', 
+      borderRadius: '20px', // Круглая кнопка
+      background: 'linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%)', 
+      color: 'white', 
+      fontWeight: '800', 
+      letterSpacing: '0.5px',
+      boxShadow: '0 4px 15px rgba(0, 210, 255, 0.4)' // Свечение кнопки
     }
   };
 
