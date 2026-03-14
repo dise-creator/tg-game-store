@@ -19,7 +19,7 @@ const onAdd = (item) => {
     tg.MainButton.setText(`Купить ${item.title} за ${item.price}₽`);
     tg.MainButton.show();
     
-    // ЭТА СТРОКА ВАЖНА: она отправляет данные боту
+    // ПРОВЕРЬ ЭТУ СТРОКУ:
     tg.sendData(JSON.stringify(item)); 
   };
 
