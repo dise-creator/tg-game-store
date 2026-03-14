@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 const tg = window.Telegram?.WebApp;
 
@@ -15,16 +16,13 @@ function App() {
     tg?.expand();
   }, []);
 
-const onAdd = (item) => {
-    // 1. Настраиваем главную кнопку Telegram
-    tg.MainButton.setText(`Подтвердить заказ: ${item.title}`);
+  const onAdd = (item) => {
+    tg.MainButton.setText(`Купить ${item.title} за ${item.price}₽`);
     tg.MainButton.show();
-    
-    // 2. СРАЗУ отправляем данные боту (чтобы он их «запомнил»)
-    tg.sendData(JSON.stringify(item));
+    // Теперь данные отправляются сразу
+    tg.sendData(JSON.stringify(item)); 
   };
 
-  // Тот самый объект стилей со стильным бэкграундом
   const s = {
     container: { 
       padding: '20px', 
@@ -32,7 +30,8 @@ const onAdd = (item) => {
       minHeight: '100vh',
       background: 'linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%)', 
       color: 'white',
-      fontFamily: 'sans-serif'
+      fontFamily: 'sans-serif',
+      overflowX: 'hidden'
     },
     grid: { 
       display: 'grid', 
@@ -72,15 +71,36 @@ const onAdd = (item) => {
 
   return (
     <div style={s.container}>
-      <h2 style={{margin: '0 0 10px 0'}}>Game Store</h2>
+      <motion.h2 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{margin: '0 0 10px 0', fontSize: '28px', textShadow: '0 0 10px #00d2ff'}}
+      >
+        Game Store
+      </motion.h2>
+
       <div style={s.grid}>
-        {products.map(item => (
-          <div key={item.id} style={s.card}>
+        {products.map((item, index) => (
+          <motion.div 
+            key={item.id} 
+            style={s.card}
+            initial={{ opacity: 0, scale: 0.8, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <img src={item.img} alt={item.title} style={s.img} />
             <b style={{fontSize: '14px', marginBottom: '5px'}}>{item.title}</b>
             <div style={{margin: '5px 0', color: '#00d2ff', fontWeight: 'bold'}}>{item.price} ₽</div>
-            <button style={s.btn} onClick={() => onAdd(item)}>Купить</button>
-          </div>
+            <motion.button 
+              style={s.btn} 
+              onClick={() => onAdd(item)}
+              whileTap={{ scale: 0.9 }}
+            >
+              Купить
+            </motion.button>
+          </motion.div>
         ))}
       </div>
     </div>
