@@ -9,10 +9,12 @@ const categories = {
   hits: [
     {id: 1, title: 'Minecraft', price: 1500, img: '/mc.jpg'},
     {id: 2, title: 'GTA V', price: 2500, img: '/gta.jpg'},
+    {id: 5, title: 'FIFA 24', price: 4500, img: '/fifa2024.jpg'},
   ],
   new: [
     {id: 3, title: 'Elden Ring', price: 3999, img: '/elden.jpg'},
     {id: 4, title: 'Cyberpunk 2077', price: 2000, img: '/cyber.jpg'},
+    {id: 6, title: 'Starfield', price: 3500, img: '/starfield.jpg'},
   ]
 };
 
@@ -34,62 +36,110 @@ function App() {
       minHeight: '100vh',
       background: 'linear-gradient(180deg, #0f0c29 0%, #302b63 50%, #24243e 100%)', 
       color: 'white',
-      fontFamily: 'sans-serif'
+      fontFamily: '"Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+      overflowX: 'hidden'
     },
-    sectionTitle: { textAlign: 'left', padding: '0 20px', margin: '20px 0 10px', fontSize: '20px', color: '#00d2ff' },
-card: { 
-      background: 'rgba(255, 255, 255, 0.07)', // чуть светлее
+    header: {
+      textAlign: 'center',
+      marginBottom: '30px',
+      fontSize: '28px',
+      fontWeight: '800',
+      textShadow: '0 0 15px rgba(0, 210, 255, 0.5)'
+    },
+    sectionTitle: { 
+      textAlign: 'left', 
+      padding: '0 25px', 
+      margin: '25px 0 15px', 
+      fontSize: '20px', 
+      fontWeight: 'bold',
+      color: '#00d2ff',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px'
+    },
+    card: { 
+      background: 'rgba(255, 255, 255, 0.07)', 
       backdropFilter: 'blur(15px)', 
       padding: '15px', 
-      borderRadius: '30px', // Делаем очень круглыми (супер-современно)
-      border: '1px solid rgba(0, 210, 255, 0.3)', // Голубой бортик
-      width: '200px',
-      margin: '10px',
-      boxShadow: '0 10px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 210, 255, 0.1)', // Внешняя тень и внутреннее свечение
+      borderRadius: '32px', 
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      boxSizing: 'border-box'
     },
+    img: { 
+      width: '100%', 
+      height: '130px', 
+      objectFit: 'cover', 
+      borderRadius: '22px', 
+      marginBottom: '12px' 
+    },
+    title: { fontSize: '16px', marginBottom: '6px', display: 'block' },
+    price: { color: '#00d2ff', fontWeight: 'bold', fontSize: '18px', marginBottom: '15px' },
     btn: { 
       width: '100%', 
       padding: '12px', 
       border: 'none', 
-      borderRadius: '20px', // Круглая кнопка
+      borderRadius: '18px', 
       background: 'linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%)', 
       color: 'white', 
-      fontWeight: '800', 
-      letterSpacing: '0.5px',
-      boxShadow: '0 4px 15px rgba(0, 210, 255, 0.4)' // Свечение кнопки
+      fontWeight: 'bold',
+      boxShadow: '0 5px 15px rgba(0, 210, 255, 0.3)'
     }
   };
 
   const renderCategory = (title, items) => (
-    <>
-      <h3 style={s.sectionTitle}>{title}</h3>
-      <Swiper slidesPerView={'auto'} spaceBetween={10} style={{padding: '0 10px'}}>
+    <div style={{marginBottom: '30px'}}>
+      <div style={s.sectionTitle}>{title}</div>
+      <Swiper 
+        slidesPerView={'auto'} 
+        spaceBetween={15} 
+        style={{padding: '0 20px', overflow: 'visible'}}
+      >
         {items.map((item, index) => (
-          <SwiperSlide key={item.id} style={{width: 'auto'}}>
+          <SwiperSlide key={item.id} style={{ width: '220px' }}>
             <motion.div 
               style={s.card}
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
+              whileTap={{ scale: 0.97 }}
             >
               <img src={item.img} alt={item.title} style={s.img} />
-              <div style={{marginBottom: '10px', fontWeight: 'bold'}}>{item.title}</div>
-              <div style={{color: '#00d2ff', marginBottom: '10px'}}>{item.price} ₽</div>
-              <button style={s.btn} onClick={() => onAdd(item)}>Купить</button>
+              <span style={s.title}>{item.title}</span>
+              <div style={s.price}>{item.price} ₽</div>
+              <motion.button 
+                style={s.btn} 
+                onClick={() => onAdd(item)}
+                whileTap={{ scale: 0.9 }}
+              >
+                Купить
+              </motion.button>
             </motion.div>
           </SwiperSlide>
         ))}
       </Swiper>
-    </>
+    </div>
   );
 
   return (
     <div style={s.container}>
-      <h2 style={{textAlign: 'center', margin: '0 0 20px'}}>Game Store</h2>
+      <motion.h2 
+        style={s.header}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        GAME INDUSTRY
+      </motion.h2>
       
       {renderCategory('🔥 Популярное', categories.hits)}
       {renderCategory('✨ Новинки', categories.new)}
       
+      <p style={{textAlign: 'center', opacity: 0.5, fontSize: '12px', marginTop: '20px'}}>
+        Выберите игру для оформления заказа
+      </p>
     </div>
   );
 }
