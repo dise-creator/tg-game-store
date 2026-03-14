@@ -15,9 +15,12 @@ function App() {
     tg?.expand();
   }, []);
 
-  const onAdd = (item) => {
+const onAdd = (item) => {
     tg.MainButton.setText(`Купить ${item.title} за ${item.price}₽`);
     tg.MainButton.show();
+    
+    // ЭТА СТРОКА ВАЖНА: она отправляет данные боту
+    tg.sendData(JSON.stringify(item)); 
   };
 
   // Тот самый объект стилей со стильным бэкграундом
