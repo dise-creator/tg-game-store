@@ -16,11 +16,12 @@ function App() {
   }, []);
 
 const onAdd = (item) => {
-    tg.MainButton.setText(`Купить ${item.title} за ${item.price}₽`);
+    // 1. Настраиваем главную кнопку Telegram
+    tg.MainButton.setText(`Подтвердить заказ: ${item.title}`);
     tg.MainButton.show();
     
-    // ПРОВЕРЬ ЭТУ СТРОКУ:
-    tg.sendData(JSON.stringify(item)); 
+    // 2. СРАЗУ отправляем данные боту (чтобы он их «запомнил»)
+    tg.sendData(JSON.stringify(item));
   };
 
   // Тот самый объект стилей со стильным бэкграундом
