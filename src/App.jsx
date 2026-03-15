@@ -26,16 +26,19 @@ const news = [
 function App() {
   const [view, setView] = useState('news'); // 'news', 'shop', 'info'
 
-  useEffect(() => {
+useEffect(() => {
     tg?.ready();
     tg?.expand();
-  }, []);
 
-  const onAdd = (item) => {
-    tg.MainButton.setText(`Заказать ${item.title}`);
-    tg.MainButton.show();
-    tg.sendData(JSON.stringify(item));
-  };
+    // Читаем параметры из URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const startParam = urlParams.get('start');
+
+    // Если в ссылке есть ?start=shop, сразу ставим экран магазина
+    if (startParam === 'shop') {
+      setView('shop');
+    }
+}, []);
 
   const s = {
     container: { 
